@@ -1,20 +1,50 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './screens/Home';
+import TrackPlayerScreen from './screens/TrackPlayerScreen';
+import {TailwindProvider} from 'tailwind-rn';
+import utilities from './tailwind.json';
+import {useTailwind } from 'tailwind-rn';
 
 export default function App() {
+
+  const tailwind = useTailwind();
+  const Stack = createNativeStackNavigator();
+  const globalScreenOptions = {
+    headerStyle : { backgroundColor : "#34d399"},
+    headerTitleStyle : {color :"#fff"},
+    headerTintColor : "#fff",
+    
+    
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+
+    <TailwindProvider utilities={utilities}>
+
+      <NavigationContainer>
+      
+        <Stack.Navigator 
+          screenOptions={globalScreenOptions}
+          tabBar={() => null}
+          >
+            <Stack.Screen 
+              options ={{ title : "Home"}} 
+              name ="Home" 
+              component={Home} 
+              
+            />
+            <Stack.Screen 
+              options ={{ title : "My library"}} 
+              name ="TrackPlayer" 
+              component={TrackPlayerScreen} 
+            />
+          </Stack.Navigator>
+    </NavigationContainer>
+   </TailwindProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
